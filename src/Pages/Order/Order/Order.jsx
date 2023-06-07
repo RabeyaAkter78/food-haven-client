@@ -9,14 +9,14 @@ import OrderTab from "../OrderTab/OrderTab";
 import { useParams } from "react-router-dom";
 
 const Order = () => {
-
-    const categories = ['pizza', 'salad', 'soup', 'desserts', 'drinks'];
+    const categories = ['salad', 'pizza', 'soup', 'desserts', 'drinks'];
     const { category } = useParams();
+    // console.log(category);
     const initialIndex = categories.indexOf(category);
+    // console.log(initialIndex);
+
     const [tabIndex, setTabindex] = useState(initialIndex);
     const [menu] = UseMenu();
-
-
 
     const desserts = menu.filter(item => item.category === 'dessert');
     const soup = menu.filter(item => item.category === 'soup');
@@ -37,17 +37,17 @@ const Order = () => {
 
             <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabindex(index)}>
                 <TabList>
-                    <Tab>Pizza</Tab>
                     <Tab>Salad</Tab>
+                    <Tab>Pizza</Tab>
                     <Tab>Soup</Tab>
                     <Tab>Dessert</Tab>
                     <Tab>Drinks</Tab>
                 </TabList>
                 <TabPanel>
-                    <OrderTab items={pizza}></OrderTab>
+                    <OrderTab items={salad}></OrderTab>
                 </TabPanel>
                 <TabPanel>
-                    <OrderTab items={salad}></OrderTab>
+                    <OrderTab items={pizza}></OrderTab>
 
                 </TabPanel>
                 <TabPanel>

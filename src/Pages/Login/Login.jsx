@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Form, Link, useLocation, useNavigate } from "react-router-dom";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
-import { AuthContext } from "../../Providers/AuthProvider";
+// import { AuthContext } from "../../Providers/AuthProvider";
 import { Helmet } from "react-helmet-async";
 import Swal from 'sweetalert2'
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const Login = () => {
     const [disabled, setDesabled] = useState(true);
@@ -92,17 +94,24 @@ const Login = () => {
                                 {/* <button  className="btn btn-outline btn-xs">Validate</button> */}
 
                             </div>
+                            {/* TODO: make button disabled for captcha */}
                             <div className="form-control mt-6">
-                                <input disabled={disabled} className="btn btn-primary" type="submit" value="Submit" />
+                                <input disabled={false} className="btn btn-primary" type="submit" value="Submit" />
                             </div>
                             <div>
                                 <h3>New Here?Please <Link to="/signup">SignUp</Link> </h3>
                                 <Link to="/" className="btn btn-primary form-control mt-6">Go To Home</Link>
                             </div>
+                            
+
                         </div>
+
                     </Form>
+                    <SocialLogin></SocialLogin>
                 </div>
+               
             </div>
+
         </div>
     );
 };

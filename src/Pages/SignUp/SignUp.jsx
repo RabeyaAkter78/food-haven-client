@@ -4,40 +4,56 @@ import { useForm } from "react-hook-form";
 import { Form, Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from 'sweetalert2'
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const SignUp = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-
-    const { createUser, updateUserProfile,logOut } = useContext(AuthContext);
+    const { createUser, updateUserProfile, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
+
     const onSubmit = data => {
-        console.log(data)
+        // console.log(data)
         createUser(data.email, data.password)
+
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
+
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
-                        console.log('User Profile Info Updated');
-                        reset();
-                        Swal.fire({
-                            position: 'top',
-                            icon: 'success',
-                            title: 'Updated SuccessFully!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        logOut();
-                        navigate('/login');
+                        const saveUser = { name: data.name, email: data.email }
+
+                        fetch('http://localhost:5000/users', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(saveUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    reset();
+                                    Swal.fire({
+                                        position: 'top',
+                                        icon: 'success',
+                                        title: 'Updated SuccessFully!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                                logOut();
+                                navigate('/login');
+                            })
 
                     })
                     .catch(error => {
                         console.log(error);
                     })
             })
-
-
     };
+
+
     return (
         <div>
             <Helmet>
@@ -84,6 +100,8 @@ const SignUp = () => {
                             <h3>Already Have An Account? <Link to="/login">Login</Link> </h3>
                         </div>
                     </Form>
+                    <SocialLogin></SocialLogin>
+
                 </div>
             </div>
         </div>

@@ -8,6 +8,10 @@ import Order from "../Pages/Order/Order/Order";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Blog from "../Pages/Blog/Blog";
+import DashBoard from "../LayOuts/dashBoard";
+import AllUsers from "../Pages/DashBoard/AllUsers/AllUsers";
+import MyCart from "../Pages/DashBoard/MyCart/MyCart";
 
 
 export const router = createBrowserRouter([
@@ -25,7 +29,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "order/:category",
-        element: <PrivateRoute><Order></Order></PrivateRoute>
+        element: <Order></Order>
+      },
+      {
+        path: "blog",
+        element: <PrivateRoute><Blog></Blog></PrivateRoute>
       },
       {
         path: "login",
@@ -37,6 +45,22 @@ export const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: 'dashboard',
+    element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
+    children: [
+      {
+        path: 'myCart',
+        element:<MyCart></MyCart>
+
+      },
+      {
+        path: 'allUsers',
+        element: <AllUsers></AllUsers>
+
+      }
+    ]
+  }
 ]);
 
 
